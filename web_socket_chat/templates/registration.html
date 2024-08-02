@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="{% static 'static/main.css' %}" />
+	</head>
+
+	<body>
+		<div>
+			<form method="post" action="" id="registrationForm">
+				<label>name</label>
+				<input type="text" id="name" />
+
+				<label>last name</label>
+				<input type="text" id="last_name" />
+
+				<label>email</label>
+				<input type="email" id="passwordRetry" />
+
+				<label>password</label>
+				<input type="password" id="password" />
+
+				<button type="submit" id="send_button">registration</button>
+			</form>
+		</div>
+
+		<script>
+			document
+				.getElementById('registrationForm')
+				.addEventListener('submit', function (event) {
+					let name = document.getElementById('name').value.trim()
+					let last_name = document.getElementById('last_name').value.trim()
+					let email = document.getElementById('email').value.trim()
+					let password = document.getElementById('password').value.trim()
+
+					if (!name || !last_name || !password || !passwordRetry) {
+						event.preventDefault()
+						alert('some fields are not filled in')
+						return
+					} else if (password !== passwordRetry) {
+						event.preventDefault()
+						alert("passwords don't match")
+						return
+					}
+				})
+		</script>
+	</body>
+</html>

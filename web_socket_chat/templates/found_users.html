@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href={% static "../static/styles/reset.css" %} />
+		<link rel="stylesheet" href={% static "../static/styles/main.css" %} />
+	</head>
+
+	<body style="background-image: {% static '../static/img/square_bg.png' %}">
+		<nav class="header">
+      <div class="container">
+			<ul>
+					<li>
+						<a href="{% url 'find_users' %}">Find users</a>
+					</li>
+          <li>
+
+            <form id="search_form" method="get" action="">
+              <input type="text">
+              <button type="submit"><img src={% static "../static/img/magnifier.png" %}></button>
+            </form>
+
+          </li>
+					<li>
+						<a href="{% url 'get_chats' %}">Chats</a>
+					</li>
+
+					<li>
+						<a href="{% url 'user_profile' %}"
+							><img src='{% static "../static/img/user_icon.png"%}'/></a>
+					</li>
+			</div>
+			</ul>
+		</nav>
+	</body>
+</html>

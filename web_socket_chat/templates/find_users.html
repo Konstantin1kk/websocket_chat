@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href={% static "../static/styles/reset.css" %} />
+		<link rel="stylesheet" href={% static "../static/styles/main.css" %}/>
+	</head>
+
+	<body style="background-image: {% static '../static/img/square_bg.png' %}">
+		<nav class="header">
+      <div class="container">
+			<ul>				
+					<li>
+						<a href='{% url "find_users" %}'>Find users</a>
+					</li>
+          <li>
+						
+            <form id="search_form" method="get" action="">
+              <input type="text">
+              <button type="submit"><img src={% static "../static/img/magnifier.png" %}></button>
+            </form>
+						
+          </li>
+					<li>
+						<a href="{% url 'get_chats' %}">Chats</a>
+					</li>
+
+					<li>
+						<a href="{% url 'user_profile' %}"
+							><img src='{% static "../static/img/user_icon.png" %}'/></a>
+					</li>
+			</ul>
+		  </div>
+		</nav>
+		<div class="chats">
+			<p>List chats</p>
+			<a href="{% url 'find_users' %}">+ Add chat</a>
+		</div>
+		<div class="list_chats">
+				<ul>
+					{% if users %}
+						{% for user in users %}
+							<li><img src="{% static 'default_user_img.png' %}" /><p>{{ user.name }} {{ user.last_name }}</p></li>
+						{% endfor %}
+					{% else %}
+						<h1>NO USERS</h1>
+					{% endif %}
+				</ul>
+			</div>
+	</body>
+</html>
