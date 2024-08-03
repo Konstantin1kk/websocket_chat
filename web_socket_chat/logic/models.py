@@ -20,6 +20,9 @@ class Chat(models.Model):
     second_user = models.IntegerField()
     time_created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'id chat: {self.id_chat} users: {self.first_user} - {self.second_user}'
+
     class Meta:
         verbose_name = 'chat'
         app_label = 'logic'
@@ -28,11 +31,14 @@ class Chat(models.Model):
 class Message(models.Model):
     id_message = models.IntegerField(unique=True)
     text = models.CharField(max_length=255)
-    id_chat = models.ForeignKey(to='Chat', on_delete=models.CASCADE)
-    id_sender = models.GenericIPAddressField(max_length=15)
+    id_chat = models.ForeignKey(to=Chat, on_delete=models.CASCADE)
+    id_sender = models.IntegerField()
     id_recipient = models.IntegerField()
-    message_isread = models.BooleanField()
+    ip_sender = models.GenericIPAddressField(max_length=15)
     time_send_message = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.text}'
 
     class Meta:
         verbose_name = 'message'
