@@ -1,23 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
-class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField()
+class User(AbstractUser):
+    avatar = models.ImageField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.user.name}'
-
-    class Meta:
-        verbose_name = 'user'
-        app_label = 'logic'
+        return f'{self.username}'
 
 
 class Chat(models.Model):
-    id_chat = models.IntegerField(unique=True)
-    first_user = models.IntegerField()
-    second_user = models.IntegerField()
+    id_chat = models.IntegerField(unique=True, primary_key=True)
+    first_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='%(class)s_requests_created')
+    second_user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -29,11 +24,11 @@ class Chat(models.Model):
 
 
 class Message(models.Model):
-    id_message = models.IntegerField(unique=True)
-    text = models.CharField(max_length=255)
+    id_message = models.IntegerField(unique=True, primary_key=True)
+    text = models.CharField(max_length=255, blank=False)
     id_chat = models.ForeignKey(to=Chat, on_delete=models.CASCADE)
-    id_sender = models.IntegerField()
-    id_recipient = models.IntegerField()
+    id_sender = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='%(class)s_requests_created')
+    id_recipient = models.ForeignKey(to=User, on_delete=models.CASCADE)
     ip_sender = models.GenericIPAddressField(max_length=15)
     time_send_message = models.DateTimeField(auto_now_add=True)
 

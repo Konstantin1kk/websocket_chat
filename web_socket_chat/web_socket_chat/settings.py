@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     'web_socket_chat',
-    'logic'
+    'logic',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +130,22 @@ MEDIA_URL = 'img/'
 
 MEDIA_ROOT = BASE_DIR / STATIC_URL / MEDIA_URL
 
+SITE_ID = 1
+
+AUTH_USER_MODEL = 'logic.User'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'websocketchat'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'websocketchat@yandex.ru'
+EMAIL_SUBJECT_PREFIX = ''
+

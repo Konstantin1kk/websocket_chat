@@ -41,7 +41,7 @@
 				<ul>
 					{% if users %}
 						{% for user in users %}
-							<li><img src="{% static 'default_user_img.png' %}" /><p>{{ user.name }} {{ user.last_name }}</p></li>
+							<li><p><img src="{% static '../static/img/default_user_img.png' %}" /> {{user.username}} {{ user.first_name }} {{ user.last_name }} <a href="{% url 'create_chat' pk=user.id %}"><img src="../static/img/chat.png"/></a></p></li>
 						{% endfor %}
 					{% else %}
 						<h1>NO USERS</h1>
