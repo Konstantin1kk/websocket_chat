@@ -3,8 +3,8 @@
 
 <html>
 	<head>
-		<link rel="stylesheet" href={% static "../static/styles/reset.css" %}/>
-		<link rel="stylesheet" href={% static "../static/styles/main.css" %}/>
+		<link rel="stylesheet" href='{% static "../static/styles/reset.css" %}'/>
+		<link rel="stylesheet" href='{% static "../static/styles/main.css" %}'/>
 	</head>
 
 	<body style="background-image: {% static '../static/img/square_bg.png' %}">
@@ -25,5 +25,73 @@
 			</ul>
 	  </div>
 		</nav>
+		<div class="user_info">
+				<form method="post" action="" class="user_form" enctype="multipart/form-data">
+					{% csrf_token %}
+					{% if user.avatar == '' %}
+						<img src='{% static "../static/img/default_user_img.png" %}' id="avatar">
+					{% else %}
+						<img src='../static/img/{{ user.avatar }}' id="avatar" width="60" height="60">
+					{% endif %}
+					Username: <span id="username">{{ user.username }}</span>
+					Name: <span id="first_name">{{ user.first_name }}</span>
+					Last name: <span id="last_name">{{ user.last_name }}</span>
+					<img src="{% static '../static/img/pencil.png' %}" id="editing">
+
+					<div id="edit_fields" style="display: none">
+						<label for="input_user_avatar">Avatar:</label>
+						<input type="file" name='avatar' id="input_user_avatar">
+
+						<label for="username_input">Username:</label>
+						<input type="text" name='username' id="username_input">
+
+						<label for="first_name_input">Name:</label>
+						<input type="text" name="first_name" id="first_name_input">
+
+						<label for="last_name_input">Last name:</label>
+						<input type="text" name="last_name" id="last_name_input">
+
+						<button type="submit">send changes</button>
+
+					</div>
+				</form>
+		</div>
+	<script>
+		document.getElementById('editing').addEventListener('click', function(event) {
+
+			const username = document.getElementById('username')
+			const first_name = document.getElementById('first_name')
+			const last_name = document.getElementById('last_name')
+			let avatar = document.getElementById('avatar')
+			const border = '2px solid gray'
+			const color = 'black'
+
+			let usernameInput = document.getElementById('username_input')
+			let firstNameInput = document.getElementById('first_name_input')
+			let lastNameInput = document.getElementById('last_name_input')
+
+			usernameInput.value = username.textContent
+			firstNameInput.value = first_name.textContent
+			lastNameInput.value = last_name.textContent
+
+
+			usernameInput.style.border = border
+			usernameInput.style.color = color
+
+			firstNameInput.style.border = border
+			firstNameInput.style.color = color
+
+			lastNameInput.style.border = border
+			lastNameInput.style.color = color
+
+			document.getElementById('edit_fields').style.display = 'block'
+
+			document.getElementById('username').style.display = 'none'
+			document.getElementById('first_name').style.display = 'none'
+			document.getElementById('last_name').style.display = 'none'
+			document.getElementById('editing').style.display = 'none'
+			avatar.style.display = 'none'
+		})
+	</script>
 	</body>
 </html>
