@@ -1,4 +1,3 @@
-from itertools import chain
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.http import HttpRequest
@@ -24,15 +23,6 @@ def get_chats(request: HttpRequest):
     return render(request, template_name='chats.html', context={'users': users_in_chats})
 
 
-def get_chat(request: HttpRequest):
-    if request.method == 'GET':
-        id_chat = request.GET.get()
-        return render(request, template_name='chat.html')
-    elif request.method == 'POST':
-        # send messages
-        pass
-
-
 def user_profile(request: HttpRequest):
     if request.method == 'GET':
         return render(request, template_name='user_profile.html', context={'user': request.user})
@@ -40,6 +30,7 @@ def user_profile(request: HttpRequest):
         params = request.POST.dict()
         user = User.objects.get(id=request.user.id)
         if 'avatar' in request.FILES:
+            user.avatar.delete(save=False)
             user.avatar = request.FILES['avatar']
         user.username = params['username']
         user.first_name = params['first_name']
@@ -65,17 +56,17 @@ class FindUsersListView(ListView):
     model = User
     template_name = 'find_users.html'
     context_object_name = 'users'
-    paginate_by = 15
+    paginate_by = 14
 
     def get_queryset(self):
         queryset = super().get_queryset()
         parameter_find = self.request.GET.get('user')
         if parameter_find:
-            # change bad code
-            username_users = User.objects.filter(username__icontains=parameter_find)
-            list_firstnames_users = User.objects.filter(first_name__icontains=parameter_find)
-            list_lastname_users = User.objects.filter(last_name__icontains=parameter_find)
-            self.users = list(chain(list_firstnames_users, list_lastname_users, username_users))
+            users = User.objects.filter(Q(username__icontains=parameter_find) |
+                Q(first_name__icontains=parameter_find) |
+                Q(last_name__icontains=parameter_find)
+                )
+            self.users = users
         else:
             self.users = []
         return self.users
@@ -90,7 +81,6 @@ class CreateChatView(View):
     def get(self, request, pk):
         user_for_id = User.objects.get(id=pk)
         chat, created = Chat.objects.get_or_create(first_user=self.request.user, second_user=user_for_id)
-
         return redirect(to='get_chat', pk=chat.pk)
 
 

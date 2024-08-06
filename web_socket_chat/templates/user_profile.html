@@ -33,9 +33,9 @@
 					{% else %}
 						<img src='../static/img/{{ user.avatar }}' id="avatar" width="60" height="60">
 					{% endif %}
-					Username: <span id="username">{{ user.username }}</span>
-					Name: <span id="first_name">{{ user.first_name }}</span>
-					Last name: <span id="last_name">{{ user.last_name }}</span>
+					<label for="username" id="username_label">Username:</label> <span id="username">{{ user.username }}</span>
+					<label for="first_name" id="first_name_label">Name:</label> <span id="first_name">{{ user.first_name }}</span>
+					<label for="last_name" id="last_name_label">Last name:</label> <span id="last_name">{{ user.last_name }}</span>
 					<img src="{% static '../static/img/pencil.png' %}" id="editing">
 
 					<div id="edit_fields" style="display: none">
@@ -51,7 +51,7 @@
 						<label for="last_name_input">Last name:</label>
 						<input type="text" name="last_name" id="last_name_input">
 
-						<button type="submit">send changes</button>
+						<button type="submit" id="send_button">send changes</button>
 
 					</div>
 				</form>
@@ -59,10 +59,11 @@
 	<script>
 		document.getElementById('editing').addEventListener('click', function(event) {
 
+			let avatar = document.getElementById('avatar')
 			const username = document.getElementById('username')
 			const first_name = document.getElementById('first_name')
 			const last_name = document.getElementById('last_name')
-			let avatar = document.getElementById('avatar')
+
 			const border = '2px solid gray'
 			const color = 'black'
 
@@ -83,14 +84,18 @@
 
 			lastNameInput.style.border = border
 			lastNameInput.style.color = color
+			document.getElementById('send_button').style.border = border
 
 			document.getElementById('edit_fields').style.display = 'block'
 
+			avatar.style.display = 'none'
 			document.getElementById('username').style.display = 'none'
 			document.getElementById('first_name').style.display = 'none'
 			document.getElementById('last_name').style.display = 'none'
 			document.getElementById('editing').style.display = 'none'
-			avatar.style.display = 'none'
+			document.getElementById('username_label').style.display = 'none'
+			document.getElementById('first_name_label').style.display = 'none'
+			document.getElementById('last_name_label').style.display = 'none'
 		})
 	</script>
 	</body>

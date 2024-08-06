@@ -3,8 +3,8 @@
 
 <html>
 	<head>
-		<link rel="stylesheet" href={% static "../static/styles/reset.css" %}/>
-		<link rel="stylesheet" href={% static "../static/styles/main.css" %}/>
+		<link rel="stylesheet" href='{% static "../static/styles/reset.css" %}'/>
+		<link rel="stylesheet" href='{% static "../static/styles/main.css" %}'/>
 	</head>
 
 	<body style="background-image: {% static '../static/img/square_bg.png' %}">
@@ -28,17 +28,31 @@
 		</nav>
 
 		<div class="chats">
-			<p><a href="{% url 'get_chats' %}">List chats</a></p>
+			<p><a href="{% url 'get_chats' %}">List your chats</a></p>
 			<p><a href="{% url 'find_users' %}">+ Add chat</a></p>
 		</div>	
 		<div class="list_chats">
 				<ul>
-					{% for user in users %}
-						{% if users %}
-							<li><p><img src="../static/img/default_user_img.png"> {{ user.username }} {{ user.first_name }} {{ user.last_name }}</p></li>
-						{% endif %}
-					{% endfor %}
+					{% if users %}
+						{% for user in users %}
+							{% if user.avatar == '' %}
+								<li><p><img src="../static/img/default_user_img.png">
+									Username: {{ user.username }}
+									Name: {{ user.first_name }}
+									Last name: {{ user.last_name }}
+									<a href="{% url 'create_chat' pk=user.id %}"><img src="{% static '../static/img/chat.png' %}"></a></p></li>
+							{% else %}
+								<li><p><img src="../static/img/{{ user.avatar }}">
+									Username: {{ user.username }}
+									Name: {{ user.first_name }}
+									Last name: {{ user.last_name }}
+									<a href="{% url 'create_chat' pk=user.id %}"><img src="{% static '../static/img/chat.png' %}"></a></p></li>
+							{% endif %}
+						{% endfor %}
+					{% else %}
+						<h1>NO CHATS</h1>
+					{% endif %}
 				</ul>
-			</div>
+		</div>
 	</body>
 </html>

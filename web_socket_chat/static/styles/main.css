@@ -56,7 +56,7 @@ input {
 	background-color: #e8ebef;
 	display: block;
 	margin: 20px 60px 0px 60px;
-	height: 300px;
+	height: 900px;
 	border: 2px solid grey;
 }
 
@@ -70,4 +70,12 @@ input {
 
 .list_chats ul li {
 	align-content: center;
+}
+
+.chat {
+	background-color: #e8ebef;
+	display: block;
+	margin: 20px 60px 0px 60px;
+	height: 900px;
+	border: 2px solid grey;
 }
