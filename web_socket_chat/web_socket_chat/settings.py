@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     'web_socket_chat',
     'logic',
+
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +74,18 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'web_socket_chat.routing.application'
+
 WSGI_APPLICATION = 'web_socket_chat.wsgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)]
+        }
+    }
+}
 
 
 # Database
