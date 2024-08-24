@@ -36,6 +36,8 @@ input {
 .header .container ul li {
 	vertical-align: middle;
 	display: table-cell;
+	margin-right: 5px;
+	margin-left: 5px;
 }
 
 .chats {
@@ -50,12 +52,14 @@ input {
 
 .chats p {
 	display: inline;
+	margin: 5px 5px;
+	padding: 5px 5px;
 }
 
 .list_chats {
 	background-color: #e8ebef;
 	display: block;
-	margin: 20px 60px 0px 60px;
+	margin: 20px 60px 20px 60px;
 	height: 900px;
 	border: 2px solid grey;
 }
@@ -71,11 +75,14 @@ input {
 .list_chats ul li {
 	align-content: center;
 }
+.list_chats ul li img {
+	align-content: center;
+}
 
 .chat {
 	background-color: #e8ebef;
 	display: block;
-	margin: 20px 60px 0px 60px;
+	margin: 20px 60px 20px 60px;
 	height: 900px;
 	border: 2px solid grey;
 }

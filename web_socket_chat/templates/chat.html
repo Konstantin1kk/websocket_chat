@@ -5,10 +5,11 @@
 	<head>
 		<link rel="stylesheet" href={% static "../static/styles/reset.css" %}/>
 		<link rel="stylesheet" href={% static "../static/styles/main.css" %}/>
+		<link rel="stylesheet" href={% static "../static/styles/chat.css" %}/>
 	</head>
 
 	<body style="background-image: {% static '../static/img/square_bg.png' %}">
-		<nav class="header">
+	<nav class="header">
       <div class="container">
 			<ul>
 					<li>
@@ -24,18 +25,39 @@
 					</li>
 			</ul>
 	  </div>
-		</nav>
-	  		<div class="chat">
-				<div class="container">
-  					<img src="/w3images/bandmember.jpg" alt="Avatar">
-					<p>Hello. How are you today?</p>
-  					<span class="time-right">11:00</span>
-				</div>
-			<div class="container darker">
-  				<img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-  				<p>Hey! I'm fine. Thanks for asking!</p>
-  				<span class="time-left">11:01</span>
-			</div>
-	  </div>
+	</nav>
+	<div class="chat">
+
+		<div class="send_message"><input type="text" id="message_send_input"><button type="submit" id="message_send_button"><img src="{% static '../static/img/send_message.png' %}"></button></div>
+	</div>
+	<script>
+		let chat = {{ chat }};
+		let socket = new WebSocket(`ws://localhost:8000/ws/chat/${chat.pk}`);
+		let chatClass = document.querySelector('.chat');
+
+		socket.onmessage = function(event){
+			let data = JSON.parse(event.data);
+
+			let div = document.createElement('div');
+			div.className = 'container-chat';
+			div.innerHTML = `<img src="{% static '../users_avatars/{{ second_user.avatar }}' width='60' height='60' %}" alt="Avatar">\n' +
+					'\t\t\t<p>${data.message}</p>\n' +
+					'\t\t\t<span class="time-right">{{ chat.time_created }}</span>`;
+			chatClass.appendChild(div)
+		};
+
+		document.getElementById('message_send_button').onclick = function (e){
+			let messageInput = document.getElementById('message_send_input').value
+			socket.send(JSON.stringify({message: messageInput, username: '{{ current_user.username }}', chat_id: {{ chat.pk }}, id_sender: {{ current_user.pk }}, id_recipient: {{ second_user.pk }} }))
+
+			let div = document.createElement('div');
+			div.className = 'container-chat darker'
+			div.innerHTML = `<img src="{% static '../users_avatars/{{ current_user.avatar }}' width='60' height='60' %}" alt="Avatar" class="right">
+					\t\t\t<p>${messageInput}</p>
+					\t\t\t<span class="time-left">{{ chat.time_created }}</span>`
+
+			chatClass.appendChild(div)
+		}
+	</script>
 	</body>
 </html>

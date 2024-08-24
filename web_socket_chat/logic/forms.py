@@ -3,11 +3,16 @@ from . import models
 
 
 class RegisterUserForm(forms.ModelForm):
-    first_name = forms.CharField(label='Name:')
-    last_name = forms.CharField(label='Last name:')
-    email = forms.EmailField(label='Email:')
-    password = forms.CharField(label='Password:', widget=forms.PasswordInput)
+    username = forms.CharField(label='Username:', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    first_name = forms.CharField(label='First name:', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    email = forms.EmailField(label='Email:', widget=forms.EmailInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Password:', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
     class Meta:
         model = models.User
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['username', 'first_name', 'email', 'password']
+
+
+class LoginUserForm(forms.Form):
+    username = forms.CharField(label='Username:', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Password:', widget=forms.PasswordInput(attrs={'class': 'form-input'}))

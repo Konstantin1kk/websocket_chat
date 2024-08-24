@@ -10,13 +10,12 @@ class User(AbstractUser):
 
 
 class Chat(models.Model):
-    id_chat = models.IntegerField(unique=True, primary_key=True)
     first_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='%(class)s_requests_created')
     second_user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'id chat: {self.id_chat} users: {self.first_user} - {self.second_user}'
+        return f'id chat: {self.pk} users: {self.first_user} - {self.second_user}'
 
     class Meta:
         verbose_name = 'chat'
@@ -24,7 +23,6 @@ class Chat(models.Model):
 
 
 class Message(models.Model):
-    id_message = models.IntegerField(unique=True, primary_key=True)
     text = models.CharField(max_length=255, blank=False)
     id_chat = models.ForeignKey(to=Chat, on_delete=models.CASCADE)
     id_sender = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='%(class)s_requests_created')

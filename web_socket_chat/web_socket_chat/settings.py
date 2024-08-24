@@ -37,13 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
     'web_socket_chat',
     'logic',
 
+    # websockets
     'channels',
+
 ]
 
 MIDDLEWARE = [
@@ -74,16 +77,13 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'web_socket_chat.routing.application'
+ASGI_APPLICATION = 'web_socket_chat.asgi.application'
 
-WSGI_APPLICATION = 'web_socket_chat.wsgi.application'
+# WSGI_APPLICATION = 'web_socket_chat.wsgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('127.0.0.1', 6379)]
-        }
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
     }
 }
 

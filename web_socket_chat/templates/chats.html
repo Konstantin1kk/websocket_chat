@@ -42,7 +42,7 @@
 									Last name: {{ user.last_name }}
 									<a href="{% url 'create_chat' pk=user.id %}"><img src="{% static '../static/img/chat.png' %}"></a></p></li>
 							{% else %}
-								<li><p><img src="../static/img/{{ user.avatar }}">
+								<li><p><img src="../static/img/{{ user.avatar }}" width="60" height="60">
 									Username: {{ user.username }}
 									Name: {{ user.first_name }}
 									Last name: {{ user.last_name }}
